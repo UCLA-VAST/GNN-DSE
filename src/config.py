@@ -2,6 +2,13 @@ from utils import get_user, get_host
 import argparse
 import torch
 
+TARGETS = ['perf', 'quality', 'util-BRAM', 'util-DSP', 'util-LUT', 'util-FF',
+           'total-BRAM', 'total-DSP', 'total-LUT', 'total-FF']
+MACHSUITE_KERNEL = ['aes', 'gemm-blocked', 'gemm-ncubed', 'spmv-crs', 'spmv-ellpack', 'stencil', 'nw']
+poly_KERNEL = ['2mm', '3mm', 'adi', 'atax', 'bicg', 'doitgen', 
+                'mvt', 'fdtd-2d', 'gemver', 'gemm-p', 'gesummv', 
+                'heat-3d', 'jacobi-1d', 'jacobi-2d', 'seidel-2d']
+
 
 parser = argparse.ArgumentParser()
 
@@ -41,7 +48,7 @@ model_tag = 'test'
 parser.add_argument('--model_tag', default=model_tag)
 
 parser.add_argument('--prune_util', default=True) 
-parser.add_argument('--prune_class', default=False)
+parser.add_argument('--prune_class', default=True)
 
 parser.add_argument('--activation', default='elu')
 

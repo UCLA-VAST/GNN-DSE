@@ -29,7 +29,7 @@ class Saver():
         self.logdir = join(
             get_src_path(),
             'logs',
-            'class-on', f'{kernel}_{get_ts()}') 
+            'dse-results', f'{kernel}_{get_ts()}') 
         create_dir_if_not_exists(self.logdir)
         self.writer = SummaryWriter(self.logdir)
         self.timer = MyTimer()
@@ -176,13 +176,13 @@ args = kernel_parser()
 saver = Saver(args.kernel)
 CHECK_EARLY_REJECT = False
 
-final_db_dir = join(args.root_dir, 'save/dse_results', 'class-on')
+final_db_dir = join(args.root_dir, 'save/dse_results')
 src_dir = join(args.root_dir, 'dse_database/merlin_prj', f'{args.kernel}', 'xilinx_dse')
 # work_dir = join(args.root_dir, 'dse_database/save/merlin_prj', f'{args.kernel}', 'work_dir')
 work_dir = join('/expr', f'{args.kernel}', 'work_dir')
 f_config = join(args.root_dir, 'dse_database', args.benchmark, 'config', f'{args.kernel}_ds_config.json')
 f_pickle_path = join(args.root_dir, 'src/logs/', '**') 
-f_pickle_list = [f for f in iglob(f_pickle_path, recursive=True) if f.endswith('.pickle') and args.kernel in f and 'class-off' not in f]
+f_pickle_list = [f for f in iglob(f_pickle_path, recursive=True) if f.endswith('.pickle') and args.kernel in f]
 print(f_pickle_list)
 assert len(f_pickle_list) == 1
 f_pickle = f_pickle_list[0]
@@ -200,7 +200,7 @@ for i in range(max_db_id, min_db_id, -1):
     if len(f_db_list) == 1:
         f_db = f_db_list[0]
         print(f_db)
-        f_db_new = join(final_db_dir, (basename(f_db)).replace(f'_updated-{i}', f'_updated-{i+2}'))
+        f_db_new = join(final_db_dir, (basename(f_db)).replace(f'_updated-{i}', f'_updated-{i+1}'))
         found_db = True
         break
 

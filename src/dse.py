@@ -282,6 +282,7 @@ class GNNModel():
             elif mode == 'class':
                 _, pred = torch.max(out_dict['perf'], 1)
                 labels = _get_y_with_target(data, 'perf') 
+                # saver.debug(f'pred: {pred}, labels: {labels}')
                 return (pred == labels)
             else:
                 raise NotImplementedError()
@@ -382,7 +383,7 @@ class Explorer():
         for key in keys:
             d_node[key] = 0
         if mode == 'class': ## default: point is valid
-            d_node['perf'] == 1
+            d_node['perf'] = 1
         
         if 'regression' in mode:    
             data = Data(

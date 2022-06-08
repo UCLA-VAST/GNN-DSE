@@ -36,7 +36,7 @@ NON_OPT_PRAGMAS = ['LOOP_TRIPCOUNT', 'INTERFACE', 'INTERFACE', 'KERNEL']
 WITH_VAR_PRAGMAS = ['DEPENDENCE', 'RESOURCE', 'STREAM', 'ARRAY_PARTITION']
 TARGET = ['perf', 'util-DSP', 'util-BRAM', 'util-LUT', 'util-FF']
 
-SAVE_DIR = join(get_save_path(), FLAGS.dataset, f'{FLAGS.task}_with-invalid_{FLAGS.invalid}-normalization_{FLAGS.norm_method}_no_pragma_{FLAGS.no_pragma}_tag_{FLAGS.tag}_{"".join(TARGET)}')
+SAVE_DIR = join(get_save_path(), FLAGS.dataset, f'new-train-{FLAGS.task}_with-invalid_{FLAGS.invalid}-normalization_{FLAGS.norm_method}_no_pragma_{FLAGS.no_pragma}_tag_{FLAGS.tag}_{"".join(TARGET)}')
 ENCODER_PATH = join(SAVE_DIR, 'encoders')
 create_dir_if_not_exists(SAVE_DIR)
 
@@ -55,14 +55,13 @@ if FLAGS.dataset == 'programl':
 else:
     raise NotImplementedError()
 
+import config
+TARGETS = config.TARGETS
+MACHSUITE_KERNEL = config.MACHSUITE_KERNEL
+poly_KERNEL = config.poly_KERNEL
 
-TARGETS = ['perf', 'quality', 'util-BRAM', 'util-DSP', 'util-LUT', 'util-FF',
-           'total-BRAM', 'total-DSP', 'total-LUT', 'total-FF']
-MACHSUITE_KERNEL = ['aes', 'gemm-blocked', 'gemm-ncubed', 'spmv-crs', 'spmv-ellpack', 'stencil', 'nw']
-# poly_KERNEL = ['2mm', '3mm', 'adi', 'atax', 'bicg', 'doitgen', 
-#                 'mvt', 
-poly_KERNEL = ['fdtd-2d', 'gemver', 'gemm-p', 'gesummv', 
-                'heat-3d', 'jacobi-1d', 'jacobi-2d', 'seidel-2d']
+
+
 ALL_KERNEL = MACHSUITE_KERNEL + poly_KERNEL
 
 if FLAGS.all_kernels:

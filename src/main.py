@@ -9,9 +9,10 @@ from os.path import join
 
 import torch
 
-import programl_data
-MACHSUITE_KERNEL = programl_data.MACHSUITE_KERNEL
-poly_KERNEL = programl_data.poly_KERNEL
+import config
+TARGETS = config.TARGETS
+MACHSUITE_KERNEL = config.MACHSUITE_KERNEL
+poly_KERNEL = config.poly_KERNEL
 
 class HandleNodeAttention(object):
     def __call__(self, data):
@@ -32,8 +33,8 @@ else:
 if FLAGS.subtask == 'inference':
     inference(dataset)
 elif FLAGS.subtask == 'dse':
-    # for dataset in ['machsuite', 'poly']:
-    for dataset in ['poly']:
+    for dataset in ['machsuite', 'poly']:
+    # for dataset in ['poly']:
         path = join(get_root_path(), 'dse_database', dataset, 'config')
         path_graph = join(get_root_path(), 'dse_database', 'programl', dataset, 'processed')
         if dataset == 'machsuite':   
