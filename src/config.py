@@ -35,9 +35,9 @@ parser.add_argument('--num_features', default=124)
 TASK = 'regression'
 parser.add_argument('--task', default=TASK)
 
-SUBTASK = 'dse'
+# SUBTASK = 'dse'
 # SUBTASK = 'inference'
-# SUBTASK = 'train'
+SUBTASK = 'train'
 parser.add_argument('--subtask', default=SUBTASK)
 parser.add_argument('--val_ratio', type=float, default=0.15) # ratio of database for validation set
 

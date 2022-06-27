@@ -1,0 +1,4 @@
+
+WARNING: [PROCS-216] Found an unknown pragma: scop (gemver.c:99)
+
+WARNING: [PROCS-216] Found an unknown pragma: endscop (gemver.c:116)

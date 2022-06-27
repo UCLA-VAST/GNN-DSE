@@ -1,0 +1,7 @@
+
+WARNING: [PROCS-216] Found an unknown pragma: scop (fdtd-2d.c:100)
+
+WARNING: [PROCS-216] Found an unknown pragma: endscop (fdtd-2d.c:118)
+
+ERROR: [PROCS-319] Cannot find kernel pragma in the program.
+ Hint: please add a kernel pragma right before the kernel function

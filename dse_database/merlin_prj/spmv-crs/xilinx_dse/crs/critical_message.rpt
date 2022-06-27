@@ -1,0 +1,3 @@
+
+ERROR: [PROCS-319] Cannot find kernel pragma in the program.
+ Hint: please add a kernel pragma right before the kernel function

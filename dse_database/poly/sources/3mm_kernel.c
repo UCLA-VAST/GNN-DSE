@@ -1,4 +1,4 @@
-#include "merlin_type_define.h"
+//#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void kernel_3mm(int ni,int nj,int nk,int nl,int nm,double E[40][50],double A[40][60],double B[60][50],double F[50][70],double C[50][80],double D[80][70],double G[40][70])

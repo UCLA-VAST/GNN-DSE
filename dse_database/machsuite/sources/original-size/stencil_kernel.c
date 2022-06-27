@@ -1,4 +1,4 @@
-#include "merlin_type_define.h"
+//#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void stencil(int orig[8192],int sol[8192],int filter[9])

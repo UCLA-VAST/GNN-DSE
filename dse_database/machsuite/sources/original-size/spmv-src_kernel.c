@@ -1,4 +1,4 @@
-#include "merlin_type_define.h"
+//#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void spmv(double val[1666],int cols[1666],int rowDelimiters[495],double vec[494],double out[494])

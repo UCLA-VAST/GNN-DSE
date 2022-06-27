@@ -369,7 +369,7 @@ if __name__ == '__main__':
 
     for kernel in KERNEL:
         ## modify the path below:
-        path = join('/PATH/TO/KERNEL/SOURCE/FILES', f'{kernel}_dse', 'xilinx_dse', f'{kernel}')
+        path = join('merlin_prj', f'{kernel}', 'xilinx_dse', f'{kernel}')
         graph_generator(kernel, path, BENCHMARK)
         
     

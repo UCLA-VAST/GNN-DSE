@@ -142,7 +142,7 @@ def inference(dataset):
     saver.log_model_architecture(model)
     
     if FLAGS.task == 'regression':
-        testr, loss_dict, encode_loss = test(test_loader, 'test', model, 0)
+        testr, loss_dict, encode_loss = test(test_loader, 'test', model, 0, plot_test = True)
         saver.log_info((f'{loss_dict}'))
         saver.log_info(('Test loss: {:.7f}, encode loss: {:.7f}'.format(testr, encode_loss)))
     else:

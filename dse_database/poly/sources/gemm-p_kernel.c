@@ -1,4 +1,4 @@
-#include "merlin_type_define.h"
+//#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void kernel_gemm(int ni,int nj,int nk,double alpha,double beta,double C[60][70],double A[60][80],double B[80][70])

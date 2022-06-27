@@ -1,4 +1,4 @@
-#include "merlin_type_define.h"
+//#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void kernel_jacobi_1d(int tsteps,int n,double A[120],double B[120])

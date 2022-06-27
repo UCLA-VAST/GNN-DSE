@@ -1,4 +1,4 @@
-#include "merlin_type_define.h"
+//#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void ellpack(double nzval[4940],int cols[4940],double vec[494],double out[494])

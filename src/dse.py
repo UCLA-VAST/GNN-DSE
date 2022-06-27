@@ -59,7 +59,6 @@ class GNNModel():
                 self.model_path = join(self.path, model_name)
             else:
                 self.model_path = FLAGS.class_model_path
-            self.encoder_path = FLAGS.encoder_path
         if FLAGS.encoder_path == None:
             self.encoder_path = join(self.path, encoder_name)
         else:
