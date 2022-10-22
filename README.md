@@ -5,7 +5,7 @@
 + Atefeh Sohrabizadeh, Yunsheng Bai, Yizhou Sun, Jason Cong. [Automated Accelerator Optimization Aided by Graph Neural Networks](https://web.cs.ucla.edu/~atefehsz/publication/_DAC_22__GNN_DSE.pdf). In DAC, 2022.
 
 ## About
-This repo contains the codes for building GNN-DSE, an automated framework to be trained to act as the surrogate of the HLS tool. It can be used to expedite the design optimization process. The database used in this repo is built using the Xilinx HLS tools, but can be replaced by others.
+This repo contains the codes for building GNN-DSE, an automated framework to be trained to act as the surrogate of the HLS tool. It can be used to expedite the design optimization process. The database used in this repo is built using the Xilinx HLS tools, but can be replaced by other databases.
 
 
 ## Content
@@ -30,7 +30,7 @@ pip3 install -r requirements.txt
 ### Graph Generation
 The graph generation requires [LLVM](https://clang.llvm.org/get_started.html) and [ProGraML](https://github.com/ChrisCummins/ProGraML). If you want to expand on the existing graphs, please consider installing them.
 
-This project is build on LLVM 13 that can be installed by:
+This project is built on LLVM 13 that can be installed by:
 
 ```
 wget https://apt.llvm.org/llvm.sh
