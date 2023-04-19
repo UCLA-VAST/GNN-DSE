@@ -2,7 +2,7 @@
 
 ## Publication
 
-+ Atefeh Sohrabizadeh, Yunsheng Bai, Yizhou Sun, Jason Cong. [Automated Accelerator Optimization Aided by Graph Neural Networks](https://web.cs.ucla.edu/~atefehsz/publication/_DAC_22__GNN_DSE.pdf). In DAC, 2022.
++ Atefeh Sohrabizadeh, Yunsheng Bai, Yizhou Sun, Jason Cong. [Automated Accelerator Optimization Aided by Graph Neural Networks](https://dl.acm.org/doi/abs/10.1145/3489517.3530409). In DAC, 2022.
 
 ## About
 This repo contains the codes for building GNN-DSE, an automated framework to be trained to act as the surrogate of the HLS tool. It can be used to expedite the design optimization process. The database used in this repo is built using the Xilinx HLS tools, but can be replaced by other databases.
