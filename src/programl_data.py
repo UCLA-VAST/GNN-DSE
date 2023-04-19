@@ -35,6 +35,7 @@ import math
 NON_OPT_PRAGMAS = ['LOOP_TRIPCOUNT', 'INTERFACE', 'INTERFACE', 'KERNEL']
 WITH_VAR_PRAGMAS = ['DEPENDENCE', 'RESOURCE', 'STREAM', 'ARRAY_PARTITION']
 TARGET = ['perf', 'util-DSP', 'util-BRAM', 'util-LUT', 'util-FF']
+tag='new_speedup'
 
 SAVE_DIR = join(get_save_path(), FLAGS.dataset, f'new-train-{FLAGS.task}_with-invalid_{FLAGS.invalid}-normalization_{FLAGS.norm_method}_no_pragma_{FLAGS.no_pragma}_tag_{FLAGS.tag}_{"".join(TARGET)}')
 ENCODER_PATH = join(SAVE_DIR, 'encoders')
@@ -325,11 +326,13 @@ def get_data_list():
                         elif 'speedup' in FLAGS.norm_method:
                             assert obj.perf != 0
                             #assert got_reference == True
-                            y = FLAGS.normalizer / obj.perf
-                            if obj.perf == 0:
-                                y = 0
+                            if tag == 'new_speedup':
+                                y = FLAGS.normalizer / obj.perf
                             else:
-                                y = res_reference.perf / obj.perf
+                                if obj.perf == 0:
+                                    y = 0
+                                else:
+                                    y = res_reference.perf / obj.perf
                             # y = obj.perf / res_reference.perf
                             if FLAGS.norm_method == 'speedup-log2':
                                 y = math.log2(y)
