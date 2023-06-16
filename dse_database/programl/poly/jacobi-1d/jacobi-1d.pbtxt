@@ -2677,7 +2677,7 @@ node {
       key: "full_text"
       value {
         bytes_list {
-          value: "double* %A"
+          value: "double* %B"
         }
       }
     }
@@ -2692,7 +2692,7 @@ node {
       key: "full_text"
       value {
         bytes_list {
-          value: "double* %B"
+          value: "double* %A"
         }
       }
     }
@@ -2752,7 +2752,7 @@ node {
       key: "full_text"
       value {
         bytes_list {
-          value: "i32 0"
+          value: "i32 40"
         }
       }
     }
@@ -2767,7 +2767,7 @@ node {
       key: "full_text"
       value {
         bytes_list {
-          value: "i32 40"
+          value: "i32 0"
         }
       }
     }
@@ -3584,12 +3584,12 @@ edge {
 edge {
   flow: DATA
   source: 186
-  target: 11
+  target: 13
 }
 edge {
   flow: DATA
   source: 187
-  target: 13
+  target: 11
 }
 edge {
   flow: DATA
@@ -4225,14 +4225,14 @@ edge {
 }
 edge {
   flow: DATA
+  position: 1
   source: 191
-  target: 15
+  target: 20
 }
 edge {
   flow: DATA
-  position: 1
   source: 192
-  target: 20
+  target: 15
 }
 function {
   name: "kernel_jacobi_1d"

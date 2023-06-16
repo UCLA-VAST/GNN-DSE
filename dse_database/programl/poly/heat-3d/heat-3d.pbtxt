@@ -11572,21 +11572,6 @@ node {
 }
 node {
   type: VARIABLE
-  text: "[20 x [20 x double]]*"
-  block: 29
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "[20 x [20 x double]]* %A"
-        }
-      }
-    }
-  }
-}
-node {
-  type: VARIABLE
   text: "i32"
   block: 29
   features {
@@ -11624,6 +11609,21 @@ node {
       key: "full_text"
       value {
         bytes_list {
+          value: "[20 x [20 x double]]* %A"
+        }
+      }
+    }
+  }
+}
+node {
+  type: VARIABLE
+  text: "[20 x [20 x double]]*"
+  block: 29
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
           value: "[20 x [20 x double]]* %B"
         }
       }
@@ -11647,14 +11647,29 @@ node {
 }
 node {
   type: CONSTANT
-  text: "double"
+  text: "i64"
   block: 29
   features {
     feature {
       key: "full_text"
       value {
         bytes_list {
-          value: "double 2.000000e+00"
+          value: "i64 0"
+        }
+      }
+    }
+  }
+}
+node {
+  type: CONSTANT
+  text: "i32"
+  block: 29
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
+          value: "i32 40"
         }
       }
     }
@@ -11692,29 +11707,14 @@ node {
 }
 node {
   type: CONSTANT
-  text: "i32"
+  text: "double"
   block: 29
   features {
     feature {
       key: "full_text"
       value {
         bytes_list {
-          value: "i32 40"
-        }
-      }
-    }
-  }
-}
-node {
-  type: CONSTANT
-  text: "i64"
-  block: 29
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "i64 0"
+          value: "double 2.000000e+00"
         }
       }
     }
@@ -15341,17 +15341,17 @@ edge {
 edge {
   flow: DATA
   source: 798
-  target: 13
-}
-edge {
-  flow: DATA
-  source: 799
   target: 9
 }
 edge {
   flow: DATA
-  source: 800
+  source: 799
   target: 11
+}
+edge {
+  flow: DATA
+  source: 800
+  target: 13
 }
 edge {
   flow: DATA
@@ -17688,528 +17688,528 @@ edge {
 }
 edge {
   flow: DATA
+  position: 1
   source: 803
-  target: 105
-}
-edge {
-  flow: DATA
-  source: 803
-  target: 194
-}
-edge {
-  flow: DATA
-  source: 803
-  target: 286
-}
-edge {
-  flow: DATA
-  source: 803
-  target: 486
-}
-edge {
-  flow: DATA
-  source: 803
-  target: 575
-}
-edge {
-  flow: DATA
-  source: 803
-  target: 667
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 804
-  target: 31
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 804
-  target: 40
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 804
-  target: 49
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 804
-  target: 412
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 804
-  target: 421
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 804
-  target: 430
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 1
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 2
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 3
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 4
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 5
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 6
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 7
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 8
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 17
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 26
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 35
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 44
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 57
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 114
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 153
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 210
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 252
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 309
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 383
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 392
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 401
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 407
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 416
-}
-edge {
-  flow: DATA
-  source: 805
-  target: 425
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 438
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 495
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 534
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 591
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 633
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 690
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 764
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 773
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 782
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 805
-  target: 791
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 806
-  target: 22
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 807
   target: 68
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 75
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 93
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 100
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 125
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 132
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 157
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 164
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 182
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 189
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 214
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 221
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 247
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 256
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 274
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 281
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 304
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 313
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 339
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 346
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 367
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 374
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 449
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 456
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 474
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 481
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 506
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 513
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 538
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 545
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 563
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 570
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 595
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 602
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 628
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 637
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 655
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 662
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 685
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 694
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 720
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 727
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 748
 }
 edge {
   flow: DATA
   position: 1
-  source: 807
+  source: 803
   target: 755
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 804
+  target: 22
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 805
+  target: 31
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 805
+  target: 40
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 805
+  target: 49
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 805
+  target: 412
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 805
+  target: 421
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 805
+  target: 430
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 1
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 2
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 3
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 4
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 5
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 6
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 7
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 8
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 17
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 26
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 35
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 44
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 57
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 114
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 153
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 210
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 252
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 309
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 383
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 392
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 401
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 407
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 416
+}
+edge {
+  flow: DATA
+  source: 806
+  target: 425
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 438
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 495
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 534
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 591
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 633
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 690
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 764
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 773
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 782
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 806
+  target: 791
+}
+edge {
+  flow: DATA
+  source: 807
+  target: 105
+}
+edge {
+  flow: DATA
+  source: 807
+  target: 194
+}
+edge {
+  flow: DATA
+  source: 807
+  target: 286
+}
+edge {
+  flow: DATA
+  source: 807
+  target: 486
+}
+edge {
+  flow: DATA
+  source: 807
+  target: 575
+}
+edge {
+  flow: DATA
+  source: 807
+  target: 667
 }
 function {
   name: "kernel_heat_3d"

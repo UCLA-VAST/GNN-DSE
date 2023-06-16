@@ -1,4 +1,3 @@
-#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void kernel_bicg(int m,int n,double A[124][116],double s[116],double q[124],double p[116],double r[124])

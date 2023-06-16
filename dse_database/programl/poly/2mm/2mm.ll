@@ -1,5 +1,5 @@
-; ModuleID = '/home/atefehSZ/polybench-c-4.2.1-beta/linear-algebra/kernels/2mm_dse/xilinx_dse/2mm/2mm.c'
-source_filename = "/home/atefehSZ/polybench-c-4.2.1-beta/linear-algebra/kernels/2mm_dse/xilinx_dse/2mm/2mm.c"
+; ModuleID = '2mm.c'
+source_filename = "2mm.c"
 target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
 target triple = "x86_64-unknown-linux-gnu"
 

@@ -1,4 +1,3 @@
-#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void md_kernel(double force_x[256],double force_y[256],double force_z[256],double position_x[256],double position_y[256],double position_z[256],int NL[4096])

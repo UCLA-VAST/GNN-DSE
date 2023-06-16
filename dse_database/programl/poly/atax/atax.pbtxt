@@ -3075,52 +3075,7 @@ node {
       key: "full_text"
       value {
         bytes_list {
-          value: "double* %y"
-        }
-      }
-    }
-  }
-}
-node {
-  type: VARIABLE
-  text: "double*"
-  block: 17
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "double* %x"
-        }
-      }
-    }
-  }
-}
-node {
-  type: VARIABLE
-  text: "double*"
-  block: 17
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
           value: "double* %tmp"
-        }
-      }
-    }
-  }
-}
-node {
-  type: VARIABLE
-  text: "[124 x double]*"
-  block: 17
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "[124 x double]* %A"
         }
       }
     }
@@ -3157,30 +3112,45 @@ node {
   }
 }
 node {
-  type: CONSTANT
-  text: "double"
+  type: VARIABLE
+  text: "[124 x double]*"
   block: 17
   features {
     feature {
       key: "full_text"
       value {
         bytes_list {
-          value: "double 0.000000e+00"
+          value: "[124 x double]* %A"
         }
       }
     }
   }
 }
 node {
-  type: CONSTANT
-  text: "i32"
+  type: VARIABLE
+  text: "double*"
   block: 17
   features {
     feature {
       key: "full_text"
       value {
         bytes_list {
-          value: "i32 0"
+          value: "double* %x"
+        }
+      }
+    }
+  }
+}
+node {
+  type: VARIABLE
+  text: "double*"
+  block: 17
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
+          value: "double* %y"
         }
       }
     }
@@ -3196,21 +3166,6 @@ node {
       value {
         bytes_list {
           value: "i32 124"
-        }
-      }
-    }
-  }
-}
-node {
-  type: CONSTANT
-  text: "i64"
-  block: 17
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "i64 0"
         }
       }
     }
@@ -3240,7 +3195,52 @@ node {
       key: "full_text"
       value {
         bytes_list {
+          value: "i32 0"
+        }
+      }
+    }
+  }
+}
+node {
+  type: CONSTANT
+  text: "i64"
+  block: 17
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
+          value: "i64 0"
+        }
+      }
+    }
+  }
+}
+node {
+  type: CONSTANT
+  text: "i32"
+  block: 17
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
           value: "i32 1"
+        }
+      }
+    }
+  }
+}
+node {
+  type: CONSTANT
+  text: "double"
+  block: 17
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
+          value: "double 0.000000e+00"
         }
       }
     }
@@ -4171,17 +4171,17 @@ edge {
 edge {
   flow: DATA
   source: 214
-  target: 17
+  target: 19
 }
 edge {
   flow: DATA
   source: 215
-  target: 15
+  target: 9
 }
 edge {
   flow: DATA
   source: 216
-  target: 19
+  target: 11
 }
 edge {
   flow: DATA
@@ -4191,12 +4191,12 @@ edge {
 edge {
   flow: DATA
   source: 218
-  target: 9
+  target: 15
 }
 edge {
   flow: DATA
   source: 219
-  target: 11
+  target: 17
 }
 edge {
   flow: DATA
@@ -4818,51 +4818,47 @@ edge {
 }
 edge {
   flow: DATA
-  source: 220
-  target: 39
-}
-edge {
-  flow: DATA
-  source: 220
-  target: 68
-}
-edge {
-  flow: DATA
-  source: 221
-  target: 21
-}
-edge {
-  flow: DATA
-  source: 221
-  target: 50
-}
-edge {
-  flow: DATA
-  source: 221
-  target: 70
-}
-edge {
-  flow: DATA
-  source: 221
-  target: 137
-}
-edge {
-  flow: DATA
   position: 1
-  source: 222
+  source: 220
   target: 26
 }
 edge {
   flow: DATA
   position: 1
-  source: 222
+  source: 220
   target: 75
 }
 edge {
   flow: DATA
   position: 1
-  source: 222
+  source: 220
   target: 142
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 221
+  target: 55
+}
+edge {
+  flow: DATA
+  source: 222
+  target: 21
+}
+edge {
+  flow: DATA
+  source: 222
+  target: 50
+}
+edge {
+  flow: DATA
+  source: 222
+  target: 70
+}
+edge {
+  flow: DATA
+  source: 222
+  target: 137
 }
 edge {
   flow: DATA
@@ -4878,79 +4874,83 @@ edge {
 }
 edge {
   flow: DATA
-  position: 1
   source: 224
-  target: 55
-}
-edge {
-  flow: DATA
-  source: 225
   target: 1
 }
 edge {
   flow: DATA
-  source: 225
+  source: 224
   target: 2
 }
 edge {
   flow: DATA
-  source: 225
+  source: 224
   target: 3
 }
 edge {
   flow: DATA
-  source: 225
+  source: 224
   target: 4
 }
 edge {
   flow: DATA
-  source: 225
+  source: 224
   target: 5
 }
 edge {
   flow: DATA
-  source: 225
+  source: 224
   target: 6
 }
 edge {
   flow: DATA
-  source: 225
+  source: 224
   target: 7
 }
 edge {
   flow: DATA
-  source: 225
+  source: 224
   target: 8
 }
 edge {
   flow: DATA
   position: 1
-  source: 225
+  source: 224
   target: 44
 }
 edge {
   flow: DATA
   position: 1
-  source: 225
+  source: 224
   target: 131
 }
 edge {
   flow: DATA
   position: 1
-  source: 225
+  source: 224
   target: 198
 }
 edge {
   flow: DATA
   position: 1
-  source: 225
+  source: 224
   target: 207
+}
+edge {
+  flow: DATA
+  source: 225
+  target: 39
+}
+edge {
+  flow: DATA
+  source: 225
+  target: 68
 }
 function {
   name: "kernel_atax"
 }
 module {
-  name: "/home/atefehSZ/polybench-c-4.2.1-beta/linear-algebra/kernels/atax_dse/xilinx_dse/atax/atax.c"
+  name: "atax.c"
   features {
     feature {
       key: "llvm_data_layout"

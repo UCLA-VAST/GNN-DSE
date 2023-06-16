@@ -1,4 +1,3 @@
-#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void kernel_heat_3d(int tsteps,int n,double A[20][20][20],double B[20][20][20])

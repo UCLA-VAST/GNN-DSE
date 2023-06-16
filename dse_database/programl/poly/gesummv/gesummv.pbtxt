@@ -3575,6 +3575,21 @@ node {
 }
 node {
   type: VARIABLE
+  text: "i32"
+  block: 9
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
+          value: "i32 %n"
+        }
+      }
+    }
+  }
+}
+node {
+  type: VARIABLE
   text: "double*"
   block: 9
   features {
@@ -3582,7 +3597,67 @@ node {
       key: "full_text"
       value {
         bytes_list {
-          value: "double* %tmp"
+          value: "double* %x"
+        }
+      }
+    }
+  }
+}
+node {
+  type: VARIABLE
+  text: "double*"
+  block: 9
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
+          value: "double* %y"
+        }
+      }
+    }
+  }
+}
+node {
+  type: VARIABLE
+  text: "double"
+  block: 9
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
+          value: "double %beta"
+        }
+      }
+    }
+  }
+}
+node {
+  type: VARIABLE
+  text: "double"
+  block: 9
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
+          value: "double %alpha"
+        }
+      }
+    }
+  }
+}
+node {
+  type: VARIABLE
+  text: "[90 x double]*"
+  block: 9
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
+          value: "[90 x double]* %A"
         }
       }
     }
@@ -3612,112 +3687,7 @@ node {
       key: "full_text"
       value {
         bytes_list {
-          value: "double* %x"
-        }
-      }
-    }
-  }
-}
-node {
-  type: VARIABLE
-  text: "i32"
-  block: 9
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "i32 %n"
-        }
-      }
-    }
-  }
-}
-node {
-  type: VARIABLE
-  text: "double"
-  block: 9
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "double %alpha"
-        }
-      }
-    }
-  }
-}
-node {
-  type: VARIABLE
-  text: "double"
-  block: 9
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "double %beta"
-        }
-      }
-    }
-  }
-}
-node {
-  type: VARIABLE
-  text: "[90 x double]*"
-  block: 9
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "[90 x double]* %A"
-        }
-      }
-    }
-  }
-}
-node {
-  type: VARIABLE
-  text: "double*"
-  block: 9
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "double* %y"
-        }
-      }
-    }
-  }
-}
-node {
-  type: CONSTANT
-  text: "double"
-  block: 9
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "double 0.000000e+00"
-        }
-      }
-    }
-  }
-}
-node {
-  type: CONSTANT
-  text: "i64"
-  block: 9
-  features {
-    feature {
-      key: "full_text"
-      value {
-        bytes_list {
-          value: "i64 0"
+          value: "double* %tmp"
         }
       }
     }
@@ -3733,6 +3703,21 @@ node {
       value {
         bytes_list {
           value: "i32 1"
+        }
+      }
+    }
+  }
+}
+node {
+  type: CONSTANT
+  text: "double"
+  block: 9
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
+          value: "double 0.000000e+00"
         }
       }
     }
@@ -3763,6 +3748,21 @@ node {
       value {
         bytes_list {
           value: "i32 90"
+        }
+      }
+    }
+  }
+}
+node {
+  type: CONSTANT
+  text: "i64"
+  block: 9
+  features {
+    feature {
+      key: "full_text"
+      value {
+        bytes_list {
+          value: "i64 0"
         }
       }
     }
@@ -4895,22 +4895,22 @@ edge {
 edge {
   flow: DATA
   source: 249
-  target: 21
+  target: 11
 }
 edge {
   flow: DATA
   source: 250
-  target: 19
-}
-edge {
-  flow: DATA
-  source: 251
   target: 23
 }
 edge {
   flow: DATA
+  source: 251
+  target: 25
+}
+edge {
+  flow: DATA
   source: 252
-  target: 11
+  target: 15
 }
 edge {
   flow: DATA
@@ -4920,17 +4920,17 @@ edge {
 edge {
   flow: DATA
   source: 254
-  target: 15
-}
-edge {
-  flow: DATA
-  source: 255
   target: 17
 }
 edge {
   flow: DATA
+  source: 255
+  target: 19
+}
+edge {
+  flow: DATA
   source: 256
-  target: 25
+  target: 21
 }
 edge {
   flow: DATA
@@ -5628,108 +5628,108 @@ edge {
 edge {
   flow: DATA
   source: 257
-  target: 45
-}
-edge {
-  flow: DATA
-  source: 257
-  target: 56
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 258
-  target: 80
-}
-edge {
-  flow: DATA
-  position: 1
-  source: 258
-  target: 138
-}
-edge {
-  flow: DATA
-  source: 259
   target: 1
 }
 edge {
   flow: DATA
-  source: 259
+  source: 257
   target: 2
 }
 edge {
   flow: DATA
-  source: 259
+  source: 257
   target: 3
 }
 edge {
   flow: DATA
-  source: 259
+  source: 257
   target: 4
 }
 edge {
   flow: DATA
-  source: 259
+  source: 257
   target: 5
 }
 edge {
   flow: DATA
-  source: 259
+  source: 257
   target: 6
 }
 edge {
   flow: DATA
-  source: 259
+  source: 257
   target: 7
 }
 edge {
   flow: DATA
-  source: 259
+  source: 257
   target: 8
 }
 edge {
   flow: DATA
-  source: 259
+  source: 257
   target: 9
 }
 edge {
   flow: DATA
-  source: 259
+  source: 257
   target: 10
 }
 edge {
   flow: DATA
   position: 1
-  source: 259
+  source: 257
   target: 186
 }
 edge {
   flow: DATA
   position: 1
-  source: 259
+  source: 257
   target: 242
 }
 edge {
   flow: DATA
-  source: 260
+  source: 258
+  target: 45
+}
+edge {
+  flow: DATA
+  source: 258
+  target: 56
+}
+edge {
+  flow: DATA
+  source: 259
   target: 27
 }
 edge {
   flow: DATA
-  source: 260
+  source: 259
   target: 58
 }
 edge {
   flow: DATA
   position: 1
-  source: 261
+  source: 260
   target: 32
 }
 edge {
   flow: DATA
   position: 1
-  source: 261
+  source: 260
   target: 63
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 261
+  target: 80
+}
+edge {
+  flow: DATA
+  position: 1
+  source: 261
+  target: 138
 }
 function {
   name: "kernel_gesummv"

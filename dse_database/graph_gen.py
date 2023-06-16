@@ -5,8 +5,6 @@
 
 
 import os
-import sys
-import argparse
 import networkx as nx
 import json
 from os.path import join, abspath, basename
@@ -17,6 +15,7 @@ import ast
 from pprint import pprint
 from shutil import copy
 from glob import glob
+import re
 
 from utils import create_dir_if_not_exists, get_root_path
 
@@ -24,6 +23,12 @@ from utils import create_dir_if_not_exists, get_root_path
 # if PRJ_PATH is None:
 #     print('PRJ_PATH is not set. Terminating!')
 #     sys.exit()
+
+MACHSUITE_KERNEL = ['aes', 'gemm-blocked', 'gemm-ncubed', 'spmv-crs', 'spmv-ellpack', 'stencil', 'nw']
+poly_KERNEL = ['2mm', '3mm', 'adi', 'atax', 'bicg', 'doitgen', 
+                'mvt', 'fdtd-2d', 'gemver', 'gemm-p', 'gesummv', 
+                'heat-3d', 'jacobi-1d', 'jacobi-2d', 'seidel-2d']
+ALL_KERNEL = {'machsuite': MACHSUITE_KERNEL, 'poly': poly_KERNEL}
 
 PRAGMA_POSITION = {'PIPELINE': 0, 'TILE': 2, 'PARALLEL': 1}
 BENCHMARK = 'machsuite'
@@ -93,20 +98,42 @@ def make_json_readable(name, js_graph):
     json.dump(js_graph, f_json, indent=4, sort_keys=True)
     f_json.close()
     
+def extract_function_names(c_code):
+    '''
+        extract the names of the function in c code along with their line number
+        
+        args:
+            c_code: the c_code read with code.read()
+            
+        return:
+            a list of tuples of (function name, line number)
+    '''
+    pattern = r'\b\w+\s+\w+\s*\([^)]*\)\s*{'
+    function_matches = re.finditer(pattern, c_code)
+    function_names = []
+    for match in function_matches:
+        function_name = match.group().split()[1]
+        line_number = c_code.count('\n', 0, match.start()) + 1
+        function_names.append((function_name.split('(')[0], line_number))
+    return function_names
+    
 
 def get_tc_for_loop(for_loop_text):
     '''
         get trip count of the for loop
     '''
     comp = for_loop_text.split(';')[1].strip()
-    delims = ['<=', '>=', '<', '>']
+    delims = ['<=', '>=', '<', '>', '--'] 
     delim = None
     for d in delims:
         if d in comp:
             delim = d
             break
     if delim:
-        TC = int(eval(comp.replace(" ", "").split(delim)[-1].strip()))
+        if delim == '--':
+            TC = 0
+        else:
+            TC = int(eval(comp.replace(" ", "").split(delim)[-1].strip()))
         return TC
     else:
         print(f'no comparison sign found in {for_loop_text}')
@@ -114,7 +141,7 @@ def get_tc_for_loop(for_loop_text):
 
 def get_icmp(path, name, log=False):
     '''
-        gets a llvm file and returns the icmp instructions of each for loop
+        gets an llvm file and returns the icmp instructions of each for loop
         
         args:
             path: parent directory of the llvm file
@@ -125,26 +152,33 @@ def get_icmp(path, name, log=False):
                 {for loop id: [icmp instruction, for.cond line number, icmp line number]}
             number of for loops
     '''
-    for_dict_llvm = OrderedDict() ## {for loop id: [icmp instruction, for.cond line number, icmp line number]}
+    for_dict_llvm = OrderedDict() ## {function inst: {for loop id: [icmp instruction, for.cond line number, icmp line number]}} ## function inst is the LLVM-equivalent of function defintion starting with "define"
     f_llvm = open(join(path, f'{name}.ll'), 'r')
     lines_llvm = f_llvm.readlines()
-    for_count_llvm = 0
+    for_count_llvm, local_for_count_llvm = 0, 0
+    func_inst = None
     for idx, line in enumerate(lines_llvm):
-        if line.strip().startswith('for.cond'):
+        if line.strip().startswith('define'):
+            for_dict_llvm[line.strip()] = OrderedDict()
+            func_inst = line.strip()
+            local_for_count_llvm = 0
+        elif line.strip().startswith('for.cond'):
             for_count_llvm += 1
+            local_for_count_llvm += 1
             for idx2, line2 in enumerate(lines_llvm[idx+1:]):
                 if line2.strip().startswith('for.body'):
                     print(f'Do you have the right LLVM code? no icmp instruction found for loop at line {idx}.')
                     raise RuntimeError()
                 elif 'icmp' in line2.strip():
-                    for_dict_llvm[for_count_llvm] = [line2.strip(), idx, idx2 + idx + 1]
+                    assert func_inst != None, 'no function scope found'
+                    for_dict_llvm[func_inst][local_for_count_llvm] = [line2.strip(), idx, idx2 + idx + 1]
                     break
     if log:
         print(json.dumps(for_dict_llvm, indent=4))
     return for_dict_llvm, for_count_llvm
 
 
-def get_pragmas_loops(path, name, log=False):
+def get_pragmas_loops(path, name, EXT='c', log=False):
     '''
         gets a c kernel and returns the pragmas of each for loop
         
@@ -157,32 +191,43 @@ def get_pragmas_loops(path, name, log=False):
                 {for loop id: [for loop source code, [list of pragmas]]}
             number of for loops
     '''
-    for_dict_source = OrderedDict() ## {for loop id: [for loop source code, [list of pragmas]]}
-    f_source = open(join(path, f'{name}.c'), 'r')
+    
+    for_dict_source = OrderedDict() ## {function name: {for loop id: [for loop source code, [list of pragmas]]}}
+    f_source = open(join(path, f'{name}.{EXT}'), 'r')
     lines_source = f_source.readlines()
-    for_count_source = 0
+    f_source.close()
+    with open(join(path, f'{name}.{EXT}'), 'r') as f_source:
+        function_names_list = extract_function_names(f_source.read())
+    for_count_source, local_for_count_source = 0, 0
     pragma_zone = False
-    for idx, line in enumerate(lines_source):
-        line = line.strip()
-        if not line or 'scop' in line: ## if it's a blank line or #pragma scop in it, skip it
-            continue
-        if line.startswith('for(') or line.startswith('for '):
-            for_count_source += 1
-        if pragma_zone:
-            if ':' in line:
-                continue ## if it is a loop label, skip it
-            if line.startswith('#pragma'):
-                pragma_list.append(line)
-            elif line.startswith('for'):
-                for_dict_source[for_count_source] = [line.strip('{'), pragma_list]
-                pragma_zone = False
+    for f_id, (f_name, idx_start) in enumerate(function_names_list):
+        for_dict_source[f_name] = OrderedDict()
+        local_for_count_source = 0
+        last_line = -1
+        if f_id + 1 < len(function_names_list): last_line = function_names_list[f_id+1][1]
+        for idx_, line in enumerate(lines_source[idx_start:last_line]):
+            idx = idx_ + idx_start
+            line = line.strip()
+            if not line or 'scop' in line: ## if it's a blank line or #pragma scop in it, skip it
+                continue
+            if line.startswith('for(') or line.startswith('for '):
+                for_count_source += 1
+                local_for_count_source += 1
+            if pragma_zone:
+                if ':' in line:
+                    continue ## if it is a loop label, skip it
+                if line.startswith('#pragma'):
+                    pragma_list.append(line)
+                elif line.startswith('for'):
+                    for_dict_source[f_name][local_for_count_source] = [line.strip('{'), pragma_list]
+                    pragma_zone = False
+                else:
+                    print(f'Do you have the right source code? expected either for loop or pragma at line {idx} but got {line}.')
+                    raise RuntimeError()
             else:
-                print(f'Do you have the right source code? expected either for loop or pragma at line {idx} but got {line}.')
-                raise RuntimeError()
-        else:
-            if line.startswith('#pragma') and not 'KERNEL' in line.upper():
-                pragma_list = [line]
-                pragma_zone = True
+                if line.startswith('#pragma') and not 'KERNEL' in line.upper():
+                    pragma_list = [line]
+                    pragma_zone = True
     
     if log:
         print(json.dumps(for_dict_source, indent=4))
@@ -205,46 +250,74 @@ def create_pragma_nodes(g_nx, g_nx_nodes, for_dict_source, for_dict_llvm, log = 
     '''
     new_nodes, new_edges = [], []
     new_node_id = g_nx_nodes
-    for for_loop_id, [for_loop_text, pragmas] in for_dict_source.items():
-        icmp_inst = for_dict_llvm[for_loop_id][0]
-        TC_icmp = int(icmp_inst.split(',')[-1].strip())
-        TC_for = get_tc_for_loop(for_loop_text)
-        assert TC_for == TC_icmp, f'trip count of loop {for_loop_text} did not match {icmp_inst}.'
-
-        node_id, block_id, function_id = None, None, None
-        for node, ndata in g_nx.nodes(data=True):
-            if 'features' in ndata:
-                feat = ast.literal_eval(str(ndata['features']))
-                if icmp_inst == feat['full_text'][0]:
-                    print(f"found {icmp_inst} with id {node}")
-                    node_id = int(node)
-                    block_id = int(ndata['block'])
-                    function_id = int(ndata['function'])
+    for f_name, f_content in for_dict_source.items():
+        if len(f_content) == 0: ## no pragma exists in this function
+            continue
+        llvm_content = [f for f in for_dict_llvm if f_name in f]
+        assert len(llvm_content) == 1
+        llvm_content = for_dict_llvm[llvm_content[0]]
+        for for_loop_id, [for_loop_text, pragmas] in f_content.items():
+            icmp_inst = llvm_content[for_loop_id][0]
+            icmp_inst_ = icmp_inst.split('!dbg')[0] ## if it has line number, strip it
+            split_icmp_inst = icmp_inst_.split(',')
+            TC_id = -1
+            for sp in split_icmp_inst[::-1]:
+                if sp.strip() == '': ## sp is white space ''
+                    TC_id -= 1
+                else:
                     break
-        if not node_id:
-            print(f'icmp instruction {icmp_inst} not found.')
-            raise RuntimeError()
-        
-        for pragma in pragmas:
-            p_dict = {}
-            p_dict['type'] = 3
-            p_dict['block'] = block_id
-            p_dict['function'] = function_id
-            p_dict['features'] = {'full_text': [pragma]}
-            p_dict['text'] = pragma.split(' ')[2]
-            new_nodes.append((new_node_id, p_dict))
+            TC_icmp = int(eval(split_icmp_inst[TC_id].strip()))
+            TC_for = get_tc_for_loop(for_loop_text)
+            assert TC_for == TC_icmp, f'trip count of loop {for_loop_text} did not match {icmp_inst}.'
+
+            node_id, block_id, function_id = None, None, None
+            for node, ndata in g_nx.nodes(data=True):
+                if 'features' in ndata:
+                    feat = ast.literal_eval(str(ndata['features']))
+                    if icmp_inst == feat['full_text'][0]:
+                        print(f"found {icmp_inst} with id {node}")
+                        node_id = int(node)
+                        block_id = int(ndata['block'])
+                        function_id = int(ndata['function'])
+                        break
+            if not node_id:
+                print(f'icmp instruction {icmp_inst} not found.')
+                raise RuntimeError()
             
-            e_dict = {'flow': 3, 'position': PRAGMA_POSITION[p_dict['text'].upper()]}
-            new_edges.append((node_id, new_node_id, e_dict))
-            
-            new_node_id += 1
+            for pragma in pragmas:
+                p_dict = {}
+                p_dict['type'] = 3
+                p_dict['block'] = block_id
+                p_dict['function'] = function_id
+                p_dict['features'] = {'full_text': [pragma]}
+                p_dict['text'] = pragma.split(' ')[2]
+                new_nodes.append((new_node_id, p_dict))
+                
+                e_dict = {'flow': 3, 'position': PRAGMA_POSITION[p_dict['text'].upper()]}
+                new_edges.append((node_id, new_node_id, e_dict))
+                new_edges.append((new_node_id, node_id, e_dict))
+                
+                new_node_id += 1
     if log:        
         pprint(new_nodes)
         pprint(new_edges)
         
     return new_nodes, new_edges
 
-def process_graph(name, dest):
+def prune_redundant_nodes(g_new):
+    while True:
+        remove_nodes = set()
+        for node in g_new.nodes():
+            if len(list(g_new.neighbors(node))) == 0 or node is None:
+                print(node)
+                remove_nodes.add(node)
+                remove_nodes.add(node)
+        for node in remove_nodes:
+            g_new.remove_node(node)
+        if not remove_nodes:
+            break
+        
+def process_graph(name, g):
     '''
         adjusts the node/edge attributes, removes redundant nodes, 
             and writes the final graph to be used by GNN-DSE
@@ -253,39 +326,27 @@ def process_graph(name, dest):
             name: kernel name
             dest: where to store the graph
     '''
-    
-    gexf_file = glob(join(dest, f'{name}.gexf'))[0]
-    print(gexf_file)
-    g = nx.readwrite.gexf.read_gexf(gexf_file)
+
     g_new = nx.MultiDiGraph()
     for node, ndata in g.nodes(data=True):
         attrs = deepcopy(ndata)
         if 'features' in ndata:
-            feat = ast.literal_eval(ndata['features'])
+            feat = ndata['features']
             attrs['full_text'] = feat['full_text'][0]
             del attrs['features']
             
         g_new.add_node(node)
-        #print(node, attrs, ndata)
         nx.set_node_attributes(g_new, {node: attrs})
 
     edge_list = []  
+    id = 0
     for nid1, nid2, edata in g.edges(data=True):
+        edata['id'] = id
         edge_list.append((nid1, nid2, edata))
-        if edata['flow'] == 3:
-            edge_list.append((nid2, nid1, edata))
+        id += 1
     g_new.add_edges_from(edge_list)
 
-    while True:
-        remove_nodes = set()
-        for node in g_new.nodes():
-            if len(list(g_new.neighbors(node))) == 0 or node is None:
-                print(node)
-                remove_nodes.add(node)
-        for node in remove_nodes:
-            g_new.remove_node(node)
-        if not remove_nodes:
-            break
+    prune_redundant_nodes(g_new)
 
     new_gexf_file = join(processed_gexf_folder, f'{name}_processed_result.gexf')
     print(len(g_new.nodes), len(g.nodes))
@@ -294,7 +355,7 @@ def process_graph(name, dest):
 
 
 
-def graph_generator(name, path, benchmark):
+def graph_generator(name, path, benchmark, generate_programl = False):
     """
         runs ProGraML [ICML'21] to generate the graph, adds the pragma nodes,
             processes the final graph to be accepted by GNN-DSE
@@ -320,7 +381,7 @@ def graph_generator(name, path, benchmark):
             type: 3 --> pragma
     """
     ## generate PrograML graph
-    generate_programl = True
+    
     if generate_programl:
         p = Popen(f"{get_root_path()}/programl_script.sh {name} {path}", shell = True, stdout = PIPE)
         p.wait()
@@ -338,6 +399,8 @@ def graph_generator(name, path, benchmark):
                                                f'{for_count_llvm} in llvm vs {for_count_source} in the code'
     
     print(f'number of nodes: {g_nx_nodes} and number of edges: {g_nx_edges}')
+    graph_path = join(path, name+'.gexf')
+    nx.write_gexf(g_nx, graph_path)
     
     augment_graph = True
     if augment_graph:
@@ -346,31 +409,41 @@ def graph_generator(name, path, benchmark):
         
         add_to_graph(g_nx, new_nodes, new_edges)
         print(f'number of new nodes: {g_nx.number_of_nodes()} and number of new edges: {len(g_nx.edges)}')
-        graph_path = join(path, name+'.gexf')
-        nx.write_gexf(g_nx, graph_path)
+        process = True
+        if process:
+            process_graph(name, g_nx)
 
     copy_files_ = True
-    local = False
+    if generate_programl: copy_files = True
+    local = True # True: programl is run in the directories inside this project
     if copy_files_:
         if not local:
-            dest = join(os.getcwd(), 'programl', benchmark, name)
+            dest = join(os.getcwd(), f'programl', benchmark, name)
             create_dir_if_not_exists(dest)
             copy_files(name, path, dest)
         else:
             dest = path
         
-        process = True
-        if process:
-            process_graph(name, dest)
+        
 
 
 if __name__ == '__main__':
-    KERNEL = ['fdtd-2d', '3mm', 'jacobi-1d']
+    for BENCHMARK in ['machsuite', 'poly']:
+        processed_gexf_folder = join(get_root_path(), f'programl/{BENCHMARK}/processed/')
+        create_dir_if_not_exists(processed_gexf_folder)
+        for kernel in ALL_KERNEL[BENCHMARK]:
+            print('####################')
+            print('now processing', kernel)
+            path = join(get_root_path(), f'programl/{BENCHMARK}/', f'{kernel}')
+            graph_generator(kernel, path, BENCHMARK, generate_programl = False)
+            print()
+    
+    # KERNEL = ['fdtd-2d', '3mm', 'jacobi-1d']
 
-    for kernel in KERNEL:
-        ## modify the path below:
-        path = join('merlin_prj', f'{kernel}', 'xilinx_dse', f'{kernel}')
-        graph_generator(kernel, path, BENCHMARK)
+    # for kernel in KERNEL:
+    #     ## modify the path below:
+    #     path = join('merlin_prj', f'{kernel}', 'xilinx_dse', f'{kernel}')
+    #     graph_generator(kernel, path, BENCHMARK)
         
     
 

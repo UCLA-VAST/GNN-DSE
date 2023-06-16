@@ -1,4 +1,3 @@
-#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void kernel_seidel_2d(int tsteps,int n,double A[120][120])

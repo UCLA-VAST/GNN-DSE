@@ -1,4 +1,3 @@
-#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void kernel_gesummv(int n,double alpha,double beta,double A[90][90],double B[90][90],double tmp[90],double x[90],double y[90])

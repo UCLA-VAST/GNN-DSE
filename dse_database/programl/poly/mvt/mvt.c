@@ -1,4 +1,3 @@
-#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void kernel_mvt(double x1[120], double x2[120], double y_1[120], double y_2[120], double A[120][120])

@@ -1,4 +1,3 @@
-#include "merlin_type_define.h"
 #pragma ACCEL kernel
 
 void gemm(double m1[4096],double m2[4096],double prod[4096])
